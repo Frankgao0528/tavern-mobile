@@ -1,5 +1,5 @@
 // 念念酒馆 PWA Service Worker：离线缓存
-const CACHE = 'tavern-v1'
+const CACHE = 'tavern-v2'
 const ASSETS = ['./', './manifest.json', './index.html']
 
 self.addEventListener('install', (e) => {
