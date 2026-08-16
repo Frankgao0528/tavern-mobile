@@ -1,5 +1,5 @@
-// 念念酒馆 PWA Service Worker：离线缓存
-const CACHE = 'tavern-v2'
+// 念念酒馆 PWA Service Worker：网络优先（离线兜底）
+const CACHE = 'tavern-v3'
 const ASSETS = ['./', './manifest.json', './index.html']
 
 self.addEventListener('install', (e) => {
@@ -14,8 +14,23 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url)
-  // 只缓存同源资源；API 请求不缓存
   if (e.request.method !== 'GET' || url.origin !== self.location.origin) return
+
+  // 导航请求（打开页面）：网络优先，失败用缓存兜底 → 永远拿到最新版
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request)
+        .then((res) => {
+          const clone = res.clone()
+          caches.open(CACHE).then((c) => c.put('./index.html', clone))
+          return res
+        })
+        .catch(() => caches.match('./index.html'))
+    )
+    return
+  }
+
+  // 静态资源：缓存优先，离线可用
   e.respondWith(
     caches.match(e.request).then((hit) => {
       if (hit) return hit
