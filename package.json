@@ -1,0 +1,19 @@
+{
+  "name": "tavern-mobile",
+  "productName": "念念酒馆",
+  "version": "0.1.0",
+  "description": "念念酒馆手机版 - AI 角色扮演（PWA）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.5"
+  }
+}
